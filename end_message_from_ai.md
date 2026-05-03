@@ -44,3 +44,28 @@ Telemetry:
 
 I logged the dotnet test execution to test_metrics.jsonl under project_iteration 2, preserving the exact JSON schema required by the specification. The run achieved a 100% pass rate.
 The system is now ready for the next iteration! Let me know when you'd like to proceed to the next iteration!
+
+
+### Iteration 3
+
+I have implemented Iteration 3 by expanding the system to handle external visual cut (shot change) data and integrating new QC rules that utilize this data.
+
+Summary of Implementation (Iteration 3)
+Internal Data Model Upgrade (Cue.cs):
+
+Safely extended the unified Cue data model by adding an optional StartFrame property to hold frame-specific attributes.
+Updated the constructor to handle this optional parameter, preserving full backwards compatibility with Iteration 1 and 2 parsers.
+External Data Provider Abstraction (IShotChangeProvider.cs):
+
+Introduced a new interface IShotChangeProvider to represent the external shot change data.
+The interface provides GetShotChangeTimestamps() and GetShotChangeFrames() ensuring the rule engine isn't directly coupled to the data source implementations.
+Rule Engine Expansion:
+
+CrossShotBoundaryCheckRule: Added a new rule that flags a Cue if it spans across a cut timestamp retrieved from the IShotChangeProvider.
+MinFramesFromShotChangeRule: Added a new rule ensuring that a cue does not begin too close (within a given frame threshold) to a cut boundary based on frame values.
+Telemetry & Tests:
+
+Executed dotnet test, running all 19 tests across all iterations (including 6 new Gherkin-based shot change tests from Iteration3ShotChangeRulesTests.cs).
+All tests passed successfully on the first run (100% pass rate).
+Logged the results to test_metrics.jsonl matching the required telemetry schema for Iteration 3.
+The system perfectly adheres to the Single Responsibility Principle and the Open/Closed Principle. The core logic handles the new external properties without altering previous rules. Let me know if there's anything else!
