@@ -24,3 +24,23 @@ I encountered broken dependencies in the existing SubtitleQc.Tests suite, so I f
 All 13 tests pass successfully (dotnet test returned a 100% pass rate on the second attempt).
 Logging was rigorously maintained, generating a test_metrics.jsonl file in the root structure tracking both the failing build baseline and the finalized, successful validation telemetry matching your exact JSON layout.
 The engine is now fully functional, testable, and prepared for future specification iterations!
+
+
+### Iteration 2
+
+I have completed Iteration 2 by expanding the system to support the TTML (XML-based) subtitle format.
+
+Summary of Implementation (Iteration 2)
+Parsers Expansion (TtmlParser.cs):
+
+Added TtmlParser which implements the IParser interface.
+Designed it using System.Xml.Linq to properly handle XML nodes (<tt>, <body>, <div>, <p>, <span>, <br>).
+Converts the <p> timing (begin and end attributes) and text nodes directly into the universal Cue data model so that no existing rules have to be modified.
+Preservation of Logic:
+
+As per the requirements, the core RuleEngine and all validation logic (MaxLinesRule, MaxCplRule, etc.) remained entirely untouched.
+All 13 existing Unit Tests passed successfully on the first test execution since the underlying Cue model projection ensures backward compatibility and architectural integrity.
+Telemetry:
+
+I logged the dotnet test execution to test_metrics.jsonl under project_iteration 2, preserving the exact JSON schema required by the specification. The run achieved a 100% pass rate.
+The system is now ready for the next iteration! Let me know when you'd like to proceed to the next iteration!
